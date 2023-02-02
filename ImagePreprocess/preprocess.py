@@ -2,78 +2,68 @@
 import os
 import cv2
 import numpy as np
+import enhancement.retinex as RTN
 
 class Request(object):
     """
-    All supported type of request are listed below:
 
-    1. Single Scale Retinex(SSR)
+    This class can be easy to use for some people who don't like to make more complex choice on the parameters of the algorithm but want to have a try.
+    Clearly, it still work but not good enough! I recommend everyone to use it by downloading the folder "enhancement" and use it as whatever you like!
 
-        Retinex is a theory raised in 1960s that improves the brightness, contrast and sharpness of an image. Here are some important
-        views about it:
-
-        ` The color of an object is determined by the reflection ability to the light, but has no relationship with the light 
-          intensity.
-
-        ` Picture S, which is the color that observer get, is determined by the reflection rate of the object R, and the incident light
-          L. The mathematical form of SSR is given by S(x,y) = R(x,y) * L(x,y) (Here "*" means multiply). So if we can estimate L, we know R.
-
-        ` But L is too hard to know precisely. We use the convolution of S(x,y) and a Gaussain kernel G(x,y) to express L(x,y).Plus, 
-          I don't understand why lol.
-
+    But if you still want to try it, you can use it by the fellow steps:
+        
+        1. First you will put in the path of the FOLDER, which includes the pictures you'd like to process. If you write a wrong path, you have to check
+           it and try again. 
+        2. Next put in the method you want to use. Also, If you write a wrong name, you have to check it and try again. (Currently only support SSR and 
+           MSR, which is introduced in detail in enhancement/retinex.py)
+        3. Finally press any buttons in your keyboard to continue. But make sure you know that your original pictures will be covered and can NOT be 
+           found later!!!
 
     Attributes:
 
         path: All picture in the targeted folder
         type: the way that picture is processed
+        
     """
+   
     def __init__(self):
         self.path = None   
-        self.type = None  
+        self.type = None 
 
     def init_by_user(self):
         self.path = input("请输入要处理的图片所在文件夹的绝对路径：")
         while not os.path.exists(self.path):
             self.path = input("输入有误！请输入要处理的图片所在文件夹的绝对路径：")
+        self.type = input("请输入处理类型：（目前仅支持SSR和MSR）")
+        while(self.type != 'SSR' and self.type != 'MSR'):
+            self.type = input("输入有误！请输入合法的处理类型：")
+        input("请注意，被处理的文件将被覆盖且无法恢复！\n按任意键确认继续")
 
-    def read_image(image_path):
+    def read_image(self, image_path):
         img = cv2.imread(image_path)
-        if img != None:
-            return img
-        else:
-            input("路径错误或图片无法处理，该文件路径为\n%s\n请确认输入路径下仅有可处理文件后，重新输入路径"%image_path)
-            return 0
-    
-    def replaceZeroes(data):
-        min_nonzero = min(data[data != 0])
-        data[data == 0] = min_nonzero
-        return data
+        return img
 
-    def SSR(self,img):  # Single Scale Retinex
+    def answer(self):
+        files = os.listdir(self.path)
+        for file in files:
+            abspath = os.path.join(self.path, file)
+            img = self.read_image(abspath) 
+            if np.max(img) == None:
+                continue
+            match self.type:
+                case 'SSR': 
+                    ans = RTN.Retinex(img)
+                    ans.SSR(img_path = abspath)
+                case 'MSR':
+                    ans = RTN.Retinex(img)
+                    ans.MSR(img_path = abspath)
+                case _:
+                    input("fatal error!\n遇到此类错误请反馈给开发人员!")
+                    return 1
+        return 0
+      
 
-        L_blur = cv2.GaussianBlur(img,img.shape[:2],0)
-        eps = float(1e-10)
-    
-        h,w = img.shape[:2]
-        dst_img = np.zeros((h,w),dtype = np.float32)
-        dst_Lblur = np.zeros((h, w),dtype= np.float32)
-        dst_R = np.zeros((h, w), dtype= np.float32)
-    
-        img = self.replaceZeroes(img)
-        L_blur = self.replaceZeroes(L_blur)
-        cv2.log(img,dst_img)
-        cv2.log(L_blur,dst_Lblur)
-        log_R = cv2.subtract(dst_img,dst_Lblur)
-    
-        cv2.normalize(log_R,dst_R,0,255,cv2.NORM_MINMAX)
-        log_uint8 = cv2.convertScaleAbs(dst_R)
-    
-    
-        minvalue,maxvalue,minloc,maxloc = cv2.minMaxLoc(log_R)
-        for i in range(h):
-            for j in range(w):
-                log_R[i,j] = (log_R[i,j]-minvalue)*255.0/(maxvalue-minvalue)
-        log_uint8 = cv2.convertScaleAbs(log_R)
-        return log_uint8
-
-        
+if __name__ == '__main__':
+    re = Request()
+    re.init_by_user()
+    re.answer()

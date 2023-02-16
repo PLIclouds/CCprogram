@@ -2,7 +2,7 @@
 import os
 import cv2
 import numpy as np
-import enhancement.retinex as RTN
+import enhancement as en
 
 class Request(object):
     """
@@ -52,10 +52,10 @@ class Request(object):
                 continue
             match self.type:
                 case 'SSR': 
-                    ans = RTN.Retinex(img)
+                    ans = en.Retinex(img)
                     ans.SSR(img_path = abspath)
                 case 'MSR':
-                    ans = RTN.Retinex(img)
+                    ans = en.Retinex(img)
                     ans.MSR(img_path = abspath)
                 case _:
                     input("fatal error!\n遇到此类错误请反馈给开发人员!")

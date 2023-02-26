@@ -21,15 +21,15 @@
 以第一张图为例，如果我是管理者而你打算改代码，那么：
 
   (1) fork：分叉。将我的项目相当于~~叉一份~~复制一份到自己的github仓库中
-  
+
   (2) git clone：克隆一份到本地，然后想怎么改就怎么改
-  
+
   (3) git add：添加文件到暂存区
-  
+
   (4) git commit：暂存区文件提交到本地仓库
-  
+
   (5) git push：上传本地仓库的代码并更新你本地的在线仓库（就是那个fork在你github仓库的文件）
-  
+
   (6) pull request：提交更新请求，等待我通过
 
 耐心看完你肯定发现暂存区、工作区和本地仓库的诡异之处，为什么会有这三个概念呢？
@@ -56,7 +56,7 @@
 #### fork
 
 1. 如果你已经正常安装，在你要导入的文件夹下右键菜单（更多选项）中选择 Git Bash Here，打开命令行串口
-2. 输入命令`Git clone url`，其中，url为项目地址
+2. 输入命令 `Git clone url`，其中，url为项目地址
 
 ![image](https://user-images.githubusercontent.com/76418804/211199287-e4125f3b-c56c-4b5c-a070-410bab0bf9aa.png)
 
@@ -66,7 +66,7 @@
 
 #### 项目管理
 
-下载到本地后，用vscode打开仓库文件夹，可以通过`ctrl+\``的方式调出终端（这里vscode默认终端是powershell，可以输入`bash`调出bash。
+下载到本地后，用vscode打开仓库文件夹，可以通过 `ctrl+\`的方式调出终端（这里vscode默认终端是powershell，可以输入 `bash`调出bash。
 
 在vscode中安装插件Gitlens后，在左侧菜单栏的源代码管理当中，我们就能找到git的图形化操作方式了。你可以提交到本地仓库，可以修改，可以查看历史，这里就可以体现出Git的方便之处了。当然，不安装也没问题，只不过就只能打命令行来解决问题了。
 
@@ -74,7 +74,7 @@
 
 #### git add/git commit
 
-fork到本地后，你可以对其进行一些修改，然后就可以使用命令`git add 文件名`添加到暂存区，或者直接点按钮：
+fork到本地后，你可以对其进行一些修改，然后就可以使用命令 `git add 文件名`添加到暂存区，或者直接点按钮：
 
 ![image](https://user-images.githubusercontent.com/76418804/211201472-8004b4c0-6ecc-483b-a3fc-9e5be07df29b.png)
 
@@ -89,20 +89,20 @@ fork到本地后，你可以对其进行一些修改，然后就可以使用命�
 有些人就喜欢打命令，那么常用的命令就这些
 
 克隆仓库：git clone <git地址>
-初始化仓库：git init 
+初始化仓库：git init
 
 添加文件到暂存区：git add -A
 把暂存区的文件提交到仓库：git commit -m "提交信息"
 查看提交的历史记录：git log --stat
 
-工作区回滚：git checkout <filename>
+工作区回滚：git checkout `<filename>`
 撤销最后一次提交：git reset HEAD^1
 
-以当前分支为基础新建分支：git checkout -b <branchname>
+以当前分支为基础新建分支：git checkout -b `<branchname>`
 列举所有的分支：git branch
-单纯地切换到某个分支：git checkout <branchname>
-删掉特定的分支：git branch -D <branchname>
-合并分支：git merge <branchname>
+单纯地切换到某个分支：git checkout `<branchname>`
+删掉特定的分支：git branch -D `<branchname>`
+合并分支：git merge `<branchname>`
 
 推送当前分支最新的提交到远程：git push
 拉取远程分支最新的提交到本地：git pull
@@ -112,8 +112,9 @@ fork到本地后，你可以对其进行一些修改，然后就可以使用命�
 在本地仓库修改完全结束后，我们可以上传更新。
 
 但是这个地方有点麻烦，尤其涉及代理的时候。在上传前要做好两个设置：
+
 1. SSH设置：看[这个](https://www.jianshu.com/p/3f4b2ede5a93)就行，我没遇到什么障碍
-2. 代理设置：如果走代理，还得输入命令`git config --global http.proxy 127.0.0.1:(vpn代理端口号）`
+2. 代理设置：如果走代理，还得输入命令 `git config --global http.proxy 127.0.0.1:(vpn代理端口号）`
 
 应该没有其他的了，我这一步设置比较混乱，大家可以多看看其他参考资料
 
@@ -128,6 +129,7 @@ But，拉了协作者的好处就是可以不用pull request直接修改我的�
 ### Github相关教程
 
 我推荐几个实用快速上手的：
+
 1. b站的一个[视频](https://www.bilibili.com/video/BV1yo4y1d7UK/?spm_id_from=333.337.search-card.all.click&vd_source=2496b4033bb7934a9c794f73f3b41282)，十分钟讲完，简单易懂。另一个[视频](https://www.bilibili.com/video/BV1db4y1d79C/?vd_source=2496b4033bb7934a9c794f73f3b41282)，40分钟，时间长但全是干货，特别实用，本篇文章使用流程部分大多节选于此视频
 2. [菜鸟教程](https://www.runoob.com/git/git-tutorial.html)，永远滴神
 3. 如果有什么地方不明确的，可以查看[官方文档](https://docs.github.com/)

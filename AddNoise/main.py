@@ -32,7 +32,12 @@ def legal_num(tmp, lower, upper):
 
 
 class Request:
+    """
+    The struct of Request class is sooooo bad that I don't want to rewrite it QAQ and don't want to consider any possibility of coding in the future.
+    So I don't put any explanation here. Just treat it as a simple tool written by a noob.
 
+    First try so ... not good enough.
+    """
     def __init__(self):
         self.path = None
         self.noise_type = None
